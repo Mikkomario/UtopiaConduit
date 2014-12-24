@@ -3,7 +3,7 @@ package conduit_camera;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-import exodus_util.Transformation;
+import omega_util.Transformation;
 import genesis_event.DrawableHandler;
 import genesis_event.HandlerRelay;
 

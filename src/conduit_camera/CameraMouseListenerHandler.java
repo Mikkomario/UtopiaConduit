@@ -1,6 +1,6 @@
 package conduit_camera;
 
-import exodus_util.Transformation;
+import omega_util.Transformation;
 import genesis_event.ActorHandler;
 import genesis_event.HandlerRelay;
 import genesis_event.MouseListenerHandler;
