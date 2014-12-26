@@ -115,11 +115,13 @@ public class CameraDrawer extends DrawableHandler
 	@Override
 	public void drawSelf(Graphics2D g2d)
 	{
+		// The origin and position are swapped, that's why it looks like that (but it works)
 		// The camera's transformations affect the drawing
 		AffineTransform lastTransform = g2d.getTransform();
-		this.camera.getTransformation().inverse().transform(g2d);
-		// Also transforms the origin
-		Transformation.transitionTransformation(this.camera.getOrigin()).transform(g2d);
+		this.camera.getTransformation().inverse().withPosition(this.camera.getOrigin()).transform(g2d);
+		// Also transforms the position
+		Transformation.transitionTransformation(
+				this.camera.getTransformation().getPosition().reverse()).transform(g2d);
 		super.drawSelf(g2d);
 		g2d.setTransform(lastTransform);
 	}

@@ -5,10 +5,15 @@ import java.awt.Graphics2D;
 
 import conduit_camera.Camera;
 import conduit_camera.CameraDrawer;
+import conduit_camera.CameraMouseListenerHandler;
+import genesis_event.AdvancedMouseEvent;
+import genesis_event.AdvancedMouseListener;
 import genesis_event.Drawable;
 import genesis_event.DrawableHandler;
+import genesis_event.EventSelector;
 import genesis_event.HandlerRelay;
 import genesis_event.KeyListenerHandler;
+import genesis_event.MouseListenerHandler;
 import genesis_util.StateOperator;
 import genesis_util.Vector2D;
 import genesis_video.GamePanel;
@@ -48,6 +53,7 @@ public class ConduitTest
 		HandlerRelay baseHandlers = new HandlerRelay();
 		baseHandlers.addHandler(new KeyListenerHandler(true, window.getHandlerRelay()));
 		baseHandlers.addHandler(new DrawableHandler(true, panel.getDrawer()));
+		baseHandlers.addHandler(new MouseListenerHandler(true, window.getHandlerRelay()));
 		
 		// Creates the camera
 		Camera camera = new TestCamera(baseHandlers);
@@ -56,6 +62,7 @@ public class ConduitTest
 		HandlerRelay cameraHandlers = new HandlerRelay();
 		cameraHandlers.addHandler(new KeyListenerHandler(true, baseHandlers));
 		cameraHandlers.addHandler(new CameraDrawer(camera, true, baseHandlers));
+		cameraHandlers.addHandler(new CameraMouseListenerHandler(camera, true, baseHandlers));
 		
 		// Creates the test objects
 		new TestObject(new Vector2D(10, 10), new Vector2D(780, 580), baseHandlers);
@@ -63,6 +70,7 @@ public class ConduitTest
 		{
 			new TestObject(new Vector2D(i * 100, 0), new Vector2D(75, 75), cameraHandlers);
 		}
+		new MousePositionDrawer(cameraHandlers);
 	}
 	
 	
@@ -112,6 +120,78 @@ public class ConduitTest
 		public void setDepth(int depth)
 		{
 			// Not used
+		}
+	}
+	
+	private static class MousePositionDrawer extends SimpleGameObject implements 
+			AdvancedMouseListener, Drawable
+	{
+		// ATTRIBUTES	------------------------
+		
+		private Vector2D lastMousePosition;
+		private EventSelector<AdvancedMouseEvent> selector;
+		
+		
+		// CONSTRUCTOR	------------------------
+		
+		public MousePositionDrawer(HandlerRelay handlers)
+		{
+			super(handlers);
+			
+			this.lastMousePosition = Vector2D.zeroVector();
+			this.selector = AdvancedMouseEvent.createMouseMoveSelector();
+		}
+		
+		
+		// IMPLEMENTED METHODS	----------------
+
+		@Override
+		public StateOperator getListensToMouseEventsOperator()
+		{
+			return getIsActiveStateOperator();
+		}
+
+		@Override
+		public EventSelector<AdvancedMouseEvent> getMouseEventSelector()
+		{
+			return this.selector;
+		}
+
+		@Override
+		public boolean isInAreaOfInterest(Vector2D position)
+		{
+			return false;
+		}
+
+		@Override
+		public void onMouseEvent(AdvancedMouseEvent event)
+		{
+			this.lastMousePosition = event.getPosition();
+		}
+
+		@Override
+		public void drawSelf(Graphics2D g2d)
+		{
+			g2d.setColor(Color.RED);
+			this.lastMousePosition.drawAsPoint(5, g2d);
+		}
+
+		@Override
+		public int getDepth()
+		{
+			return 0;
+		}
+
+		@Override
+		public StateOperator getIsVisibleStateOperator()
+		{
+			return getIsActiveStateOperator();
+		}
+
+		@Override
+		public void setDepth(int depth)
+		{
+			// Not required in tests
 		}
 	}
 }
