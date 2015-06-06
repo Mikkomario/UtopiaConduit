@@ -6,8 +6,8 @@ import java.awt.Graphics2D;
 import conduit_camera.Camera;
 import conduit_camera.CameraDrawer;
 import conduit_camera.CameraMouseListenerHandler;
-import genesis_event.AdvancedMouseEvent;
-import genesis_event.AdvancedMouseListener;
+import genesis_event.MouseEvent;
+import genesis_event.MouseListener;
 import genesis_event.Drawable;
 import genesis_event.DrawableHandler;
 import genesis_event.EventSelector;
@@ -15,7 +15,7 @@ import genesis_event.HandlerRelay;
 import genesis_event.KeyListenerHandler;
 import genesis_event.MouseListenerHandler;
 import genesis_util.StateOperator;
-import genesis_util.Vector2D;
+import genesis_util.Vector3D;
 import genesis_video.GamePanel;
 import genesis_video.GameWindow;
 import omega_util.SimpleGameObject;
@@ -45,7 +45,7 @@ public class ConduitTest
 	public static void main(String[] args)
 	{
 		// Creates the window
-		GameWindow window = new GameWindow(new Vector2D(800, 600), "Conduit Test", true, 
+		GameWindow window = new GameWindow(new Vector3D(800, 600), "Conduit Test", true, 
 				120, 20);
 		GamePanel panel = window.getMainPanel().addGamePanel();
 		
@@ -65,10 +65,10 @@ public class ConduitTest
 		cameraHandlers.addHandler(new CameraMouseListenerHandler(camera, true, baseHandlers));
 		
 		// Creates the test objects
-		new TestObject(new Vector2D(10, 10), new Vector2D(780, 580), baseHandlers);
+		new TestObject(new Vector3D(10, 10), new Vector3D(780, 580), baseHandlers);
 		for (int i = 0; i < 5; i++)
 		{
-			new TestObject(new Vector2D(i * 100, 0), new Vector2D(75, 75), cameraHandlers);
+			new TestObject(new Vector3D(i * 100, 0), new Vector3D(75, 75), cameraHandlers);
 		}
 		new MousePositionDrawer(cameraHandlers);
 	}
@@ -80,12 +80,12 @@ public class ConduitTest
 	{
 		// ATTRIBUTES	---------------------
 		
-		private Vector2D dimensions, position;
+		private Vector3D dimensions, position;
 		
 		
 		// CONSTRUCTOR	-----------------------
 		
-		public TestObject(Vector2D topLeft, Vector2D dimensions, HandlerRelay handlers)
+		public TestObject(Vector3D topLeft, Vector3D dimensions, HandlerRelay handlers)
 		{
 			super(handlers);
 			
@@ -115,21 +115,15 @@ public class ConduitTest
 		{
 			return getIsActiveStateOperator();
 		}
-
-		@Override
-		public void setDepth(int depth)
-		{
-			// Not used
-		}
 	}
 	
 	private static class MousePositionDrawer extends SimpleGameObject implements 
-			AdvancedMouseListener, Drawable
+			MouseListener, Drawable
 	{
 		// ATTRIBUTES	------------------------
 		
-		private Vector2D lastMousePosition;
-		private EventSelector<AdvancedMouseEvent> selector;
+		private Vector3D lastMousePosition;
+		private EventSelector<MouseEvent> selector;
 		
 		
 		// CONSTRUCTOR	------------------------
@@ -138,8 +132,8 @@ public class ConduitTest
 		{
 			super(handlers);
 			
-			this.lastMousePosition = Vector2D.zeroVector();
-			this.selector = AdvancedMouseEvent.createMouseMoveSelector();
+			this.lastMousePosition = Vector3D.zeroVector();
+			this.selector = MouseEvent.createMouseMoveSelector();
 		}
 		
 		
@@ -152,19 +146,19 @@ public class ConduitTest
 		}
 
 		@Override
-		public EventSelector<AdvancedMouseEvent> getMouseEventSelector()
+		public EventSelector<MouseEvent> getMouseEventSelector()
 		{
 			return this.selector;
 		}
 
 		@Override
-		public boolean isInAreaOfInterest(Vector2D position)
+		public boolean isInAreaOfInterest(Vector3D position)
 		{
 			return false;
 		}
 
 		@Override
-		public void onMouseEvent(AdvancedMouseEvent event)
+		public void onMouseEvent(MouseEvent event)
 		{
 			this.lastMousePosition = event.getPosition();
 		}
@@ -186,12 +180,6 @@ public class ConduitTest
 		public StateOperator getIsVisibleStateOperator()
 		{
 			return getIsActiveStateOperator();
-		}
-
-		@Override
-		public void setDepth(int depth)
-		{
-			// Not required in tests
 		}
 	}
 }

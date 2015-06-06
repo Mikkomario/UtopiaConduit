@@ -4,7 +4,7 @@ import omega_util.Transformation;
 import genesis_event.ActorHandler;
 import genesis_event.HandlerRelay;
 import genesis_event.MouseListenerHandler;
-import genesis_util.Vector2D;
+import genesis_util.Vector3D;
 
 /**
  * This specialized mouse listener handler informs the objects about the mouse coordinates 
@@ -67,11 +67,11 @@ public class CameraMouseListenerHandler extends MouseListenerHandler
 	// IMPLEMENTED METHODS	-----------------------
 	
 	@Override
-	public void setMousePosition(Vector2D mousePosition)
+	public void setMousePosition(Vector3D mousePosition)
 	{
 		// The camera affects the mouse position
 		// Origin as well
-		Vector2D transformedPosition = Transformation.transitionTransformation(
+		Vector3D transformedPosition = Transformation.transitionTransformation(
 				this.camera.getOrigin().reverse()).transform(mousePosition);
 		transformedPosition = this.camera.getTransformation().transform(transformedPosition);
 		

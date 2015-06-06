@@ -1,7 +1,7 @@
 package conduit_camera;
 
 import omega_util.Transformable;
-import genesis_util.Vector2D;
+import genesis_util.Vector3D;
 
 /**
  * Cameras are objects that can be used for modifying what can be seen on the screen at any 
@@ -17,5 +17,5 @@ public interface Camera extends Transformable
 	 * the point the camera is rotated around, for example. The coordinates are calculated 
 	 * from the top-left corner of the camera's area.
 	 */
-	public Vector2D getOrigin();
+	public Vector3D getOrigin();
 }

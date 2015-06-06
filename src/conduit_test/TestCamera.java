@@ -1,12 +1,12 @@
 package conduit_test;
 
 import conduit_camera.Camera;
-import genesis_event.AdvancedKeyEvent;
-import genesis_event.AdvancedKeyListener;
 import genesis_event.EventSelector;
 import genesis_event.HandlerRelay;
+import genesis_event.KeyEvent;
+import genesis_event.KeyListener;
 import genesis_util.StateOperator;
-import genesis_util.Vector2D;
+import genesis_util.Vector3D;
 import omega_util.SimpleGameObject;
 import omega_util.Transformable;
 import omega_util.Transformation;
@@ -17,13 +17,12 @@ import omega_util.Transformation;
  * @author Mikko Hilpinen
  * @since 24.12.2014
  */
-public class TestCamera extends SimpleGameObject implements Transformable,
-		AdvancedKeyListener, Camera
+public class TestCamera extends SimpleGameObject implements Transformable, KeyListener, Camera
 {
 	// ATTRIBUTES	------------------------
 	
 	private Transformation transformation;
-	private EventSelector<AdvancedKeyEvent> selector;
+	private EventSelector<KeyEvent> selector;
 	
 	
 	// CONSTRUCTOR	------------------------
@@ -37,15 +36,14 @@ public class TestCamera extends SimpleGameObject implements Transformable,
 		super(handlers);
 		
 		this.transformation = new Transformation();
-		this.selector = AdvancedKeyEvent.createEventTypeSelector(
-				AdvancedKeyEvent.KeyEventType.DOWN);
+		this.selector = KeyEvent.createEventTypeSelector(KeyEvent.KeyEventType.DOWN);
 	}
 	
 	
 	// IMPLEMENTED METHODS	----------------
 
 	@Override
-	public EventSelector<AdvancedKeyEvent> getKeyEventSelector()
+	public EventSelector<KeyEvent> getKeyEventSelector()
 	{
 		return this.selector;
 	}
@@ -57,7 +55,7 @@ public class TestCamera extends SimpleGameObject implements Transformable,
 	}
 
 	@Override
-	public void onKeyEvent(AdvancedKeyEvent event)
+	public void onKeyEvent(KeyEvent event)
 	{
 		// Moves with WASD, Q and E rotate, R and F scale
 		Transformation t = null;
@@ -66,16 +64,16 @@ public class TestCamera extends SimpleGameObject implements Transformable,
 		switch (event.getKey())
 		{
 			case 'w':
-				t = Transformation.transitionTransformation(new Vector2D(0, -v));
+				t = Transformation.transitionTransformation(new Vector3D(0, -v));
 				break;
 			case 'a':
-				t = Transformation.transitionTransformation(new Vector2D(-v, 0));
+				t = Transformation.transitionTransformation(new Vector3D(-v, 0));
 				break;
 			case 'd':
-				t = Transformation.transitionTransformation(new Vector2D(v, 0));
+				t = Transformation.transitionTransformation(new Vector3D(v, 0));
 				break;
 			case 's':
-				t = Transformation.transitionTransformation(new Vector2D(0, v));
+				t = Transformation.transitionTransformation(new Vector3D(0, v));
 				break;
 			case 'q':
 				t = Transformation.rotationTransformation(v);
@@ -108,9 +106,9 @@ public class TestCamera extends SimpleGameObject implements Transformable,
 	}
 
 	@Override
-	public Vector2D getOrigin()
+	public Vector3D getOrigin()
 	{
-		//return Vector2D.zeroVector();
-		return new Vector2D(400, 300);
+		//return Vector3D.zeroVector();
+		return new Vector3D(400, 300);
 	}
 }
