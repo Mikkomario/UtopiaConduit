@@ -14,11 +14,10 @@ import genesis_event.EventSelector;
 import genesis_event.HandlerRelay;
 import genesis_event.KeyListenerHandler;
 import genesis_event.MouseListenerHandler;
-import genesis_util.StateOperator;
+import genesis_util.SimpleHandled;
 import genesis_util.Vector3D;
 import genesis_video.GamePanel;
 import genesis_video.GameWindow;
-import omega_util.SimpleGameObject;
 
 /**
  * This class tests the basic camera features introduced in this module
@@ -76,7 +75,7 @@ public class ConduitTest
 	
 	// SUBCLASSES	-----------------------
 	
-	private static class TestObject extends SimpleGameObject implements Drawable
+	private static class TestObject extends SimpleHandled implements Drawable
 	{
 		// ATTRIBUTES	---------------------
 		
@@ -109,15 +108,9 @@ public class ConduitTest
 		{
 			return 0;
 		}
-
-		@Override
-		public StateOperator getIsVisibleStateOperator()
-		{
-			return getIsActiveStateOperator();
-		}
 	}
 	
-	private static class MousePositionDrawer extends SimpleGameObject implements 
+	private static class MousePositionDrawer extends SimpleHandled implements 
 			MouseListener, Drawable
 	{
 		// ATTRIBUTES	------------------------
@@ -138,12 +131,6 @@ public class ConduitTest
 		
 		
 		// IMPLEMENTED METHODS	----------------
-
-		@Override
-		public StateOperator getListensToMouseEventsOperator()
-		{
-			return getIsActiveStateOperator();
-		}
 
 		@Override
 		public EventSelector<MouseEvent> getMouseEventSelector()
@@ -174,12 +161,6 @@ public class ConduitTest
 		public int getDepth()
 		{
 			return 0;
-		}
-
-		@Override
-		public StateOperator getIsVisibleStateOperator()
-		{
-			return getIsActiveStateOperator();
 		}
 	}
 }

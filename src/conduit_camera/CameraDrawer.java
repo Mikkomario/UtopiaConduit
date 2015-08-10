@@ -3,9 +3,9 @@ package conduit_camera;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
-import omega_util.Transformation;
 import genesis_event.DrawableHandler;
 import genesis_event.HandlerRelay;
+import genesis_util.Transformation;
 
 /**
  * CameraDrawer is a specialized drawableHandler that takes camera's transformations into 

@@ -5,11 +5,10 @@ import genesis_event.EventSelector;
 import genesis_event.HandlerRelay;
 import genesis_event.KeyEvent;
 import genesis_event.KeyListener;
-import genesis_util.StateOperator;
+import genesis_util.SimpleHandled;
+import genesis_util.Transformable;
+import genesis_util.Transformation;
 import genesis_util.Vector3D;
-import omega_util.SimpleGameObject;
-import omega_util.Transformable;
-import omega_util.Transformation;
 
 /**
  * This camera is used in the testing
@@ -17,7 +16,7 @@ import omega_util.Transformation;
  * @author Mikko Hilpinen
  * @since 24.12.2014
  */
-public class TestCamera extends SimpleGameObject implements Transformable, KeyListener, Camera
+public class TestCamera extends SimpleHandled implements Transformable, KeyListener, Camera
 {
 	// ATTRIBUTES	------------------------
 	
@@ -46,12 +45,6 @@ public class TestCamera extends SimpleGameObject implements Transformable, KeyLi
 	public EventSelector<KeyEvent> getKeyEventSelector()
 	{
 		return this.selector;
-	}
-
-	@Override
-	public StateOperator getListensToKeyEventsOperator()
-	{
-		return getIsActiveStateOperator();
 	}
 
 	@Override

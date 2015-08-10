@@ -1,6 +1,6 @@
 package conduit_camera;
 
-import omega_util.Transformable;
+import genesis_util.Transformable;
 import genesis_util.Vector3D;
 
 /**
