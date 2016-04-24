@@ -18,8 +18,8 @@ import utopia.genesis.event.StepHandler;
 import utopia.genesis.util.Vector3D;
 import utopia.genesis.video.GamePanel;
 import utopia.genesis.video.GameWindow;
-import utopia.genesis.video.PanelKeyListenerHandler;
 import utopia.genesis.video.PanelMouseListenerHandler;
+import utopia.genesis.video.WindowKeyListenerHandler;
 import utopia.genesis.video.GamePanel.ScalingPolicy;
 import utopia.genesis.video.SplitPanel.ScreenSplit;
 import utopia.inception.event.EventSelector;
@@ -32,7 +32,7 @@ import utopia.inception.util.SimpleHandled;
  * @author Mikko Hilpinen
  * @since 24.12.2014
  */
-public class ConduitTest
+class ConduitTest
 {
 	// CONSTRUCTOR	-----------------------
 	
@@ -53,14 +53,14 @@ public class ConduitTest
 		// Creates the window
 		Vector3D resolution = new Vector3D(800, 600);
 		GameWindow window = new GameWindow(resolution.toDimension(), "Conduit Test", false, 
-				ScreenSplit.HORIZONTAL);
+				true, ScreenSplit.HORIZONTAL);
 		GamePanel panel = new GamePanel(resolution, ScalingPolicy.PROJECT, 120);
 		window.addGamePanel(panel);
 		
 		// Creates the basic handlers
 		StepHandler stepHandler = new StepHandler(120, 10);
 		AbstractMouseListenerHandler mouseHandler = new PanelMouseListenerHandler(panel, false);
-		MainKeyListenerHandler keyHandler = new PanelKeyListenerHandler(window);
+		MainKeyListenerHandler keyHandler = new WindowKeyListenerHandler(window);
 		stepHandler.add(mouseHandler);
 		stepHandler.add(keyHandler);
 		
@@ -119,8 +119,8 @@ public class ConduitTest
 		public void drawSelf(Graphics2D g2d)
 		{
 			g2d.setColor(Color.BLACK);
-			g2d.drawRect(this.position.getFirstInt(), this.position.getSecondInt(), 
-					this.dimensions.getFirstInt(), this.dimensions.getSecondInt());
+			g2d.drawRect(this.position.getXInt(), this.position.getYInt(), 
+					this.dimensions.getXInt(), this.dimensions.getYInt());
 		}
 
 		@Override
@@ -143,7 +143,7 @@ public class ConduitTest
 		
 		public MousePositionDrawer()
 		{	
-			this.lastMousePosition = Vector3D.zeroVector();
+			this.lastMousePosition = Vector3D.ZERO;
 			this.selector = MouseEvent.createMouseMoveSelector();
 		}
 		
