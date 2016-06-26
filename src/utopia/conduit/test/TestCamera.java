@@ -50,7 +50,7 @@ public class TestCamera extends SimpleHandled implements Transformable, KeyListe
 	{
 		// Moves with WASD, Q and E rotate, R and F scale
 		Transformation t = null;
-		double v = event.getDuration();
+		double v = event.getDurationMillis();
 		
 		switch (event.getKey())
 		{
